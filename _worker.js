@@ -297,6 +297,10 @@ export default {
         url: 'http://172.19.17.3:8090/hls/SonyTen5HD.m3u8',
         type: 'redirect'
       },
+      'Orbit-sonyten2hd': {
+        url: 'http://172.19.17.3:8090/hls/SonyTen2hd.m3u8',
+        type: 'redirect'
+      },
       'zee_bangla': {
         url: 'https://bldcmprod-cdn.toffeelive.com/cdn/live/slang/zee_bangla_576/zee_bangla_576.m3u8?bitrate=500000&channel=zee_bangla_576&gp_id=',
         type: 'proxy'
