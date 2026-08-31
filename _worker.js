@@ -253,6 +253,10 @@ export default {
         url: 'https://starjalshabdx-anik.pages.dev/proxy/live.m3u8',
         type: 'redirect'
       },
+      'orbit-alzaazeeranews': {
+        url: 'http://172.19.17.3:8090/hls/ALjazeeraNews.m3u8',
+        type: 'redirect'
+      },
       'zee_bangla': {
         url: 'https://bldcmprod-cdn.toffeelive.com/cdn/live/slang/zee_bangla_576/zee_bangla_576.m3u8?bitrate=500000&channel=zee_bangla_576&gp_id=',
         type: 'proxy'
