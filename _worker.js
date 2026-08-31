@@ -265,6 +265,10 @@ export default {
         url: 'http://172.19.17.3:8090/hls/ASportsHD.m3u8',
         type: 'redirect'
       },
+      'orbit-TSportsHD': {
+        url: 'http://172.19.17.4:8090/hls/tntsports1hd.m3u8',
+        type: 'redirect'
+      },
       'zee_bangla': {
         url: 'https://bldcmprod-cdn.toffeelive.com/cdn/live/slang/zee_bangla_576/zee_bangla_576.m3u8?bitrate=500000&channel=zee_bangla_576&gp_id=',
         type: 'proxy'
