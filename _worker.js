@@ -8,11 +8,10 @@ export default {
 
     // 🛡️ শুধুমাত্র HTTP Canary ও তার মতো টুল ব্লক (খুব সংকীর্ণ তালিকা)
     const BLOCKED_AGENTS = [
-      'httpcanary', // HTTP Canary অ্যাপ
-      'okhttp',     // OkHttp লাইব্রেরি (অনেক স্নিফার ব্যবহার করে)
+      'httpcanary',
+      'okhttp',
     ];
 
-    // চেক: ব্লক তালিকায় আছে কিনা (কেস ইনসেনসিটিভ)
     const isBlocked = BLOCKED_AGENTS.some(agent => userAgent.toLowerCase().includes(agent.toLowerCase()));
     if (isBlocked) {
       return new Response('🚫 Access Denied: HTTP Canary or similar tool detected.', { 
@@ -22,7 +21,7 @@ export default {
     }
 
     // ============================================================
-    // 📌 চ্যানেল কনফিগারেশন (ডিফল্ট ৬টি)
+    // 📌 চ্যানেল কনফিগারেশন (শুধু রিডাইরেক্ট – দ্বিতীয় কোড থেকে নেওয়া)
     // ============================================================
     const CHANNELS = {
       'sunnext-sunnews': {
@@ -337,71 +336,43 @@ export default {
         url: 'http://172.19.17.3:8090/hls/NatGeoWild.m3u8',
         type: 'redirect'
       },
-      'Orbit-Andpicturehd: {
+      'Orbit-Andpicturehd': {
         url: 'http://172.19.17.3:8090/hls/AndPictureHD.m3u8',
         type: 'redirect'
       },
-      'Orbit-Starplushd: {
+      'Orbit-Starplushd': {
         url: 'http://172.19.17.3:8090/hls/StarPlusHD.m3u8',
         type: 'redirect'
       },
-   'Orbit-sonymaxhd: {
+      'Orbit-sonymaxhd': {
         url: 'http://172.19.17.3:8090/hls/sonymaxhd.m3u8',
         type: 'redirect'
       },
-  'Orbit-colorshd: {
+      'Orbit-colorshd': {
         url: 'http://172.19.17.3:8090/hls/ColorsHD.m3u8',
         type: 'redirect'
       },
-'Orbit-sonyhd: {
+      'Orbit-sonyhd': {
         url: 'http://172.19.17.3:8090/hls/SonyHD.m3u8',
         type: 'redirect'
       },
-'Orbit-Starjalshahd: {
+      'Orbit-Starjalshahd': {
         url: 'http://172.19.17.4:8090/hls/StarJalshaHD.m3u8',
         type: 'redirect'
       },
-      'Orbit-Jalshamovieshd: {
+      'Orbit-Jalshamovieshd': {
         url: 'http://172.19.17.3:8090/hls/JalshaMoviesHD.m3u8',
         type: 'redirect'
       },
-'Orbit-Sony8: {
+      'Orbit-Sony8': {
         url: 'http://172.19.17.3:8090/hls/SonyAtth.m3u8',
         type: 'redirect'
       },
-'Orbit-ZeebanglaHD: {
+      'Orbit-ZeebanglaHD': {
         url: 'http://172.19.17.3:8090/hls/ZeeBanglaHD.m3u8',
         type: 'redirect'
-      },
-      'zee_bangla': {
-        url: 'https://bldcmprod-cdn.toffeelive.com/cdn/live/slang/zee_bangla_576/zee_bangla_576.m3u8?bitrate=500000&channel=zee_bangla_576&gp_id=',
-        type: 'proxy'
-      },
-      'b4u_music': {
-        url: 'https://bldcmprod-cdn.toffeelive.com/cdn/live/b4u_music/playlist.m3u8',
-        type: 'proxy'
-      },
-      'zee_bangla_cinema': {
-        url: 'https://bldcmprod-cdn.toffeelive.com/cdn/live/zee_bangla_cinema/playlist.m3u8',
-        type: 'proxy'
-      },
-      'andpicture_hd': {
-        url: 'https://bldcmprod-cdn.toffeelive.com/cdn/live/andpicture_hd/playlist.m3u8',
-        type: 'proxy'
-      },
-      'mtv': {
-        url: 'https://bldcmprod-cdn.toffeelive.com/cdn/live/slang/mtv_576/mtv_576.m3u8?bitrate=500000&channel=mtv_576&gp_id=',
-        type: 'proxy'
-      },
-      'sony_aath': {
-        url: 'https%3A%2F%2Fbldcmprod-cdn.toffeelive.com%2Fcdn%2Flive%2Fslang%2Fsonyaath_576%2Fsonyaath_576.m3u8%3Fbitrate%3D1000000%26channel%3Dsonyaath_576%26gp_id%3D',
-        type: 'proxy'
-      },
-      'sony_sab': {
-        url: 'https://bldcmprod-cdn.toffeelive.com/cdn/live/slang/sony_sab_576/sony_sab_576.m3u8?bitrate=500000&channel=sony_sab_576&gp_id=',
-        type: 'proxy'
       }
-      // 👇 এখানে নতুন চ্যানেল যোগ করুন (শেষ আইটেমের পরে কমা দেবেন না)
+      // 👇 নতুন চ্যানেল যোগ করলে এখানে কমা দিয়ে যোগ করুন (শেষ আইটেমের পরে কমা দেবেন না)
     };
 
     const match = path.match(/^\/(.+)\.m3u8$/);
@@ -420,49 +391,8 @@ export default {
         return Response.redirect(config.url, 307);
       }
 
-      // ---------- প্রক্সি ----------
-      if (config.type === 'proxy') {
-        const proxyUrl = `https://s2.itcnbd.live/server-2/proxy/${channelName}/playlist?u=${encodeURIComponent(config.url)}`;
-
-        try {
-          const response = await fetch(proxyUrl, {
-            headers: {
-              'User-Agent': 'VLC/3.0.18',
-              'Referer': 'https://www.toffeelive.com/'
-            }
-          });
-
-          if (!response.ok) {
-            return new Response(`Proxy fetch failed: ${response.status}`, { status: response.status });
-          }
-
-          let content = await response.text();
-
-          // সেগমেন্ট রিরাইট (পূর্ণাঙ্গ লিংক বানান)
-          const base = new URL(config.url);
-          const basePath = base.pathname.substring(0, base.pathname.lastIndexOf('/') + 1);
-          const lines = content.split('\n');
-          const newLines = lines.map(line => {
-            const trimmed = line.trim();
-            if (trimmed === '' || trimmed.startsWith('#') || trimmed.match(/^https?:\/\//)) return line;
-            if (trimmed.startsWith('/')) return base.origin + trimmed;
-            return base.origin + basePath + trimmed;
-          });
-          content = newLines.join('\n');
-
-          return new Response(content, {
-            status: 200,
-            headers: {
-              'Content-Type': 'application/vnd.apple.mpegurl',
-              'Cache-Control': 'public, max-age=2, stale-while-revalidate=30',
-              'Access-Control-Allow-Origin': '*'
-            }
-          });
-
-        } catch (error) {
-          return new Response('Proxy Error: ' + error.message, { status: 500 });
-        }
-      }
+      // ---------- প্রক্সি (এখন আর নেই, শুধু রিডাইরেক্ট) ----------
+      // (যদি ভবিষ্যতে প্রয়োজন হয় তবে এখানে যোগ করা যাবে)
     }
 
     // হোম পেজ – সব ব্রাউজারে খোলা থাকবে
