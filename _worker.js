@@ -369,7 +369,7 @@ export default {
         url: 'http://172.19.17.3:8090/hls/SonyAtth.m3u8',
         type: 'redirect'
       },
-'Orbit-Zeebanglahd: {
+'Orbit-ZeebanglaHD: {
         url: 'http://172.19.17.3:8090/hls/ZeeBanglaHD.m3u8',
         type: 'redirect'
       },
